@@ -1,0 +1,14 @@
+name: astrbot_plugin_bili_reader
+display_name: B站看一眼
+desc: "把 B站 视频的标题、简介、热评、弹幕和几张关键帧**原样**塞回模型自己的上下文，让它自己看、自己判断。不评分、不写记忆、不发视频、不点赞评论——要互动自己调 bili_action。关键帧走 B站 storyboard 接口（x/player/videoshot），一次请求拿整片拼图、本地裁切，不用 yt-dlp、不用 ffmpeg、不用视觉模型。"
+short_desc: 把视频素材原样给模型看，不做判断
+author: Randy Lua
+repo: https://github.com/RandyLuaW/astrbot_plugin_bili_reader
+version: 1.0.1
+astrbot_version: ">=4.24.0"
+support_platforms:
+  - aiocqhttp
+tags:
+  - B站
+  - 工具
+  - 只读

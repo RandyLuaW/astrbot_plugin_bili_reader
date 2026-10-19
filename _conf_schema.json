@@ -1,0 +1,67 @@
+{
+  "enabled": {
+    "type": "bool",
+    "default": true,
+    "description": "启用这个工具。关掉后 bili_read 直接拒绝。"
+  },
+  "admin_only": {
+    "type": "bool",
+    "default": true,
+    "description": "只在管理员私聊可用。"
+  },
+  "sessdata": {
+    "type": "string",
+    "default": "",
+    "description": "可选。填了就用你自己的登录态；留空会自动借用 bilibili_ai_bot 的那份（同一台机器同一个账号）。游客态热评只有 3 条。"
+  },
+  "daily_limit": {
+    "type": "int",
+    "default": 12,
+    "description": "每天最多看几个视频。一次会往上下文里塞几千 token（文字 + 几张图），设个上限防止她一口气刷十个把窗口撑爆。0 = 不限制。"
+  },
+  "max_frames": {
+    "type": "int",
+    "default": 9,
+    "description": "一次最多给几张关键帧。每张 480×270，约 300 token。"
+  },
+  "max_comments": {
+    "type": "int",
+    "default": 20,
+    "description": "最多取几条热评。"
+  },
+  "max_danmaku": {
+    "type": "int",
+    "default": 60,
+    "description": "弹幕采样多少条。弹幕能反映片子的调性，但不给太多。"
+  },
+  "desc_chars": {
+    "type": "int",
+    "default": 300,
+    "description": "简介截断到多少字。"
+  },
+  "notify_enabled": {
+    "type": "bool",
+    "default": true,
+    "description": "有人回复她时叫醒她（只递信，不自动回复）"
+  },
+  "notify_umo": {
+    "type": "string",
+    "default": "",
+    "description": "叫醒投递到哪个会话。留空自动借用 bilibili_ai_bot 的 OWNER_QQ_UMO"
+  },
+  "notify_poll_minutes": {
+    "type": "int",
+    "default": 15,
+    "description": "多久查一次 B站 回复（分钟）"
+  },
+  "notify_gap_minutes": {
+    "type": "int",
+    "default": 60,
+    "description": "两次叫醒至少隔多久（分钟），中间攒着"
+  },
+  "notify_daily_wakes": {
+    "type": "int",
+    "default": 8,
+    "description": "一天最多叫醒几次"
+  }
+}
