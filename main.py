@@ -589,8 +589,8 @@ class BiliReadPlugin(Star):
     ):
         """从档案馆捞一张图，存成本地文件，给你发评论时带上去。
 
-        档案馆就是那个「蓝色大肥鱼档案馆」，两千多张。挑好之后把返回的
-        路径塞进 bili_action(action=comment, image=路径)。
+        档案馆是一个本地图库（按主题打标签，路径由 archive_dir 指定）。
+        挑好之后把返回的路径塞进 bili_action(action=comment, image=路径)。
 
         Args:
             keyword (string): 想找什么，比如「白饭」「生气」「睡觉」；留空就随便给一张

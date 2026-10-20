@@ -2,6 +2,12 @@
 
 所有重要变更记录于此。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循[语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.3] - 2026-10-20
+
+### 变更
+
+- **文档脱敏**：`bili_sticker` 的工具说明里去掉了具体图库名，改为「本地图库（路径由 `archive_dir` 指定）」。功能不变。
+
 ## [1.0.2] - 2026-10-20
 
 ### 修复
