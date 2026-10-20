@@ -551,7 +551,14 @@ class BiliReadPlugin(Star):
             await mgr.add_active_job(
                 name="bili-replies",
                 cron_expression=None,
-                payload={"session": umo, "note": note, "origin": "bili_reader"},
+                payload={
+                    "session": umo,
+                    "note": note,
+                    "origin": "bili_reader",
+                    # 上游靠这个字段判 role（cron/manager.py）：不传就是 member，
+                    # 那一轮她自己的 admin 闸和本地工具会被全部挡掉。
+                    "sender_id": umo.rsplit(":", 1)[-1] if ":" in umo else "",
+                },
                 description=note,
                 timezone=None,
                 persistent=False,
@@ -724,13 +731,30 @@ class BiliReadPlugin(Star):
             return f"SESSDATA={own}"
         return _borrow_cookie()
 
+    def _admin_ids(self) -> set[str]:
+        try:
+            cfg = self.context.get_config()
+            return {str(x) for x in (cfg.get("admins_id") or [])}
+        except Exception:  # noqa: BLE001
+            return set()
+
     def _allowed(self, event: AstrMessageEvent) -> bool:
         if not self._cfg("admin_only"):
             return True
         try:
-            return event.is_admin() is True and event.is_private_chat() is True
-        except Exception:
-            return False
+            if event.is_admin() is True and event.is_private_chat() is True:
+                return True
+        except Exception:  # noqa: BLE001
+            pass
+        # 定时任务唤醒的那一轮：role 是 member（CronMessageEvent 不设 role），
+        # 但 sender 就是主人本人。不认这一步，她自己在外面跑的时候会全被挡。
+        try:
+            sender = str(event.get_sender_id() or "")
+            if sender and sender in self._admin_ids() and event.is_private_chat() is True:
+                return True
+        except Exception:  # noqa: BLE001
+            pass
+        return False
 
     def _used_today(self) -> int:
         try:
@@ -827,6 +851,8 @@ class BiliReadPlugin(Star):
             f"｜播放 {_human(stat.get('view'))}｜弹幕 {_human(stat.get('danmaku'))}"
             f"｜评论 {_human(stat.get('reply'))}"
             + (f"｜分区 {tname}" if tname else "")
+            # 评论/点赞要用 aid，不是 BV——顺手给她，省得她拿 BV 去撞
+            + f"｜aid {aid}"
         )
         lines = [f"《{view.get('title', '')}》", head]
         if desc:

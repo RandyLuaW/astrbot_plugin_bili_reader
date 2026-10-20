@@ -2,6 +2,14 @@
 
 所有重要变更记录于此。格式参考 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.0/)，版本号遵循[语义化版本](https://semver.org/lang/zh-CN/)。
 
+## [1.0.2] - 2026-10-20
+
+### 修复
+
+- **定时唤醒的那一轮被 admin 闸全部拦下**：`CronMessageEvent` 不设 `role`，`event.is_admin()` 恒为 `False`，于是 cron 唤醒时 `bili_read` / `bili_replies` / `bili_sticker` 一律拒绝——表现为「手动能用、定时不能用」，容易被误判成风控。
+  现在除 `is_admin()` 外，额外认「发送者 ID 在配置的 `admins_id` 里 且 是私聊」；投递唤醒时把 `sender_id` 一并写进 payload，否则上游 `cron/manager.py` 会按 `member` 处理。
+- 新增 `_admin_ids()`：读配置里的管理员列表，异常时返回空集合，不抛异常。
+
 ## [1.0.1] - 2026-10-20
 
 ### 修复

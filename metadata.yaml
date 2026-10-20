@@ -4,7 +4,7 @@ desc: "把 B站 视频的标题、简介、热评、弹幕和几张关键帧**�
 short_desc: 把视频素材原样给模型看，不做判断
 author: Randy Lua
 repo: https://github.com/RandyLuaW/astrbot_plugin_bili_reader
-version: 1.0.1
+version: 1.0.2
 astrbot_version: ">=4.24.0"
 support_platforms:
   - aiocqhttp
